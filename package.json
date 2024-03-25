@@ -1,0 +1,73 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "webflow",
+  "title": "Webflow",
+  "description": "Search your Webflow project",
+  "icon": "command-icon.png",
+  "author": "lucas_ramalho",
+  "categories": [
+    "Developer Tools",
+    "Applications",
+    "Web"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "showSites",
+      "title": "Show Sites",
+      "description": "Show all Webflow sites on your account",
+      "subtitle": "Webflow",
+      "mode": "view"
+    },
+    {
+      "name": "showCollections",
+      "title": "Show Collections",
+      "description": "Show all collections on a Webflow site",
+      "mode": "view",
+      "arguments": [
+        {
+          "name": "siteId",
+          "description": "The site ID",
+          "type": "text",
+          "placeholder": "Site ID",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "showCollectionItems",
+      "title": "Show Collection Items",
+      "description": "Show all collection items from a Collection on a Webflow site",
+      "mode": "view",
+      "arguments": [
+        {
+          "name": "collectionId",
+          "description": "The collection ID",
+          "type": "text",
+          "placeholder": "Collection ID",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.69.3",
+    "node-fetch": "^3.3.2",
+    "webflow-api": "^2.1.2"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.6",
+    "@types/node": "20.8.10",
+    "@types/react": "18.2.27",
+    "eslint": "^8.51.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
