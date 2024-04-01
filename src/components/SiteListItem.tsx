@@ -17,6 +17,17 @@ export default function SiteListItem(props: { site: Webflow.Site }) {
       actions={
         <ActionPanel title={name}>
           <Action
+            title="Open Pages"
+            icon={Icon.Document}
+            onAction={() => {
+              launchCommand({
+                name: "showSitePages",
+                type: LaunchType.UserInitiated,
+                arguments: { siteId: site.id, siteSlug: site.shortName },
+              });
+            }}
+          />
+          <Action
             title="Open in Webflow"
             icon={Icon.Link}
             onAction={() => {

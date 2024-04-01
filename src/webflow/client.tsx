@@ -72,6 +72,58 @@ export function getSites(): Response<Webflow.Sites> {
   return response;
 }
 
+export function getPages(siteId: string): Response<Webflow.PageList> {
+  const [response, setResponse] = useState<Response<Webflow.PageList>>({ isLoading: true });
+
+  let cancel = false;
+
+  useEffect(() => {
+    async function fetchData() {
+      await authorizeIfNeeded();
+      const api = getWebflowApi();
+
+      if (!api) {
+        return;
+      }
+
+      if (cancel) {
+        return;
+      }
+      setResponse((oldState) => ({ ...oldState, isLoading: true }));
+
+      try {
+        const response =
+          (await api.pages
+            .list(siteId)
+            .then((response) => response)
+            .catch((error) => {
+              setResponse((oldState) => ({ ...oldState, error: (error as unknown as WebflowError).message }));
+            })) ?? undefined;
+
+        if (!cancel) {
+          setResponse((oldState) => ({ ...oldState, result: response }));
+        }
+      } catch (e: any) {
+        if (!cancel) {
+          setResponse((oldState) => ({ ...oldState, error: (e as unknown as WebflowError).message }));
+        }
+      } finally {
+        if (!cancel) {
+          setResponse((oldState) => ({ ...oldState, isLoading: false }));
+        }
+      }
+    }
+
+    fetchData();
+
+    return () => {
+      cancel = true;
+    };
+  }, []);
+
+  return response;
+}
+
 export function getCMSCollections(siteId: string): Response<Webflow.CollectionList> {
   const [response, setResponse] = useState<Response<Webflow.CollectionList>>({ isLoading: true });
 

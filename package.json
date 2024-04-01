@@ -20,6 +20,29 @@
       "mode": "view"
     },
     {
+      "name": "showSitePages",
+      "title": "Show Pages",
+      "description": "Show all the pages on a site",
+      "subtitle": "Webflow",
+      "mode": "view",
+      "arguments": [
+        {
+          "name": "siteId",
+          "description": "The site ID",
+          "type": "text",
+          "placeholder": "Site ID",
+          "required": true
+        },
+        {
+          "name": "siteSlug",
+          "description": "The site slug",
+          "type": "text",
+          "placeholder": "Site Slug",
+          "required": true
+        }
+      ]
+    },
+    {
       "name": "showCollections",
       "title": "Show Collections",
       "description": "Show all collections on a Webflow site",
