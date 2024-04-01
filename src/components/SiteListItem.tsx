@@ -1,4 +1,15 @@
-import { Action, ActionPanel, Icon, LaunchType, List, launchCommand, open } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  Icon,
+  LaunchType,
+  List,
+  Toast,
+  confirmAlert,
+  launchCommand,
+  open,
+  showToast,
+} from "@raycast/api";
 import { Webflow } from "webflow-api";
 import { publishSite } from "../webflow/client";
 
@@ -49,8 +60,18 @@ export default function SiteListItem(props: { site: Webflow.Site }) {
           <Action
             title="Publish Site"
             icon={Icon.Upload}
-            onAction={() => {
-              publishSite(site.id);
+            onAction={async () => {
+              if (
+                await confirmAlert({
+                  title: "Publish Site",
+                  message: "Are you sure you want to publish this site?",
+                  icon: Icon.Warning,
+                  primaryAction: { title: "Publish" },
+                })
+              ) {
+                publishSite(site.id);
+                showToast(Toast.Style.Success, "Site published successfully");
+              }
             }}
           />
         </ActionPanel>
