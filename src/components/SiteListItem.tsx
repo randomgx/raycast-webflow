@@ -1,17 +1,9 @@
-import {
-  Action,
-  ActionPanel,
-  Icon,
-  LaunchType,
-  List,
-  Toast,
-  confirmAlert,
-  launchCommand,
-  open,
-  showToast,
-} from "@raycast/api";
+import { Action, ActionPanel, Icon, List, Toast, confirmAlert, open, showToast } from "@raycast/api";
 import { Webflow } from "webflow-api";
-import { publishSite } from "../webflow/client";
+import { getCMSCollections, getCMSItems, getPages, publishSite } from "../webflow/client";
+import { useEffect, useState } from "react";
+import PageListItem from "./PageListItem";
+import CollectionListItem from "./CollectionListItem";
 
 export default function SiteListItem(props: { site: Webflow.Site }) {
   const { site } = props;
@@ -27,16 +19,10 @@ export default function SiteListItem(props: { site: Webflow.Site }) {
       icon={{ source: imageUrl }}
       actions={
         <ActionPanel title={name}>
-          <Action
-            title="Open Pages"
+          <Action.Push
+            title="Open Site Pages"
             icon={Icon.Document}
-            onAction={() => {
-              launchCommand({
-                name: "showSitePages",
-                type: LaunchType.UserInitiated,
-                arguments: { siteId: site.id, siteSlug: site.shortName },
-              });
-            }}
+            target={<ShowSitePages siteId={site.id} siteSlug={site.shortName ?? ""} />}
           />
           <Action
             title="Open in Webflow"
@@ -46,16 +32,11 @@ export default function SiteListItem(props: { site: Webflow.Site }) {
               open(url);
             }}
           />
-          <Action
-            title="Open CMS Collections"
+          <Action.Push
+            title="Open CMS Colletions"
             icon={Icon.List}
-            onAction={() => {
-              launchCommand({
-                name: "showCollections",
-                type: LaunchType.UserInitiated,
-                arguments: { siteId: site.id },
-              });
-            }}
+            shortcut={{ modifiers: ["shift"], key: "enter" }}
+            target={<ShowCollections siteId={site.id} staging={site.shortName ?? ""} />}
           />
           <Action
             title="Publish Site"
@@ -77,5 +58,83 @@ export default function SiteListItem(props: { site: Webflow.Site }) {
         </ActionPanel>
       }
     />
+  );
+}
+
+function ShowSitePages(props: { siteId: string; siteSlug: string }) {
+  const [searchText, setSearchText] = useState<string>();
+  const [filteredPages, setFilteredPages] = useState<Webflow.PageList>();
+  const [pages, setPages] = useState<Webflow.PageList>();
+  const response = getPages(props.siteId);
+
+  if (response.error) {
+    showToast(Toast.Style.Failure, "Failed to load sites", response.error);
+  }
+
+  useEffect(() => {
+    if (response.result) {
+      setPages(response.result);
+      setFilteredPages(response.result);
+    }
+  }, [response.result]);
+
+  useEffect(() => {
+    if (pages) {
+      const filtered = pages.pages?.filter((page) => {
+        return page.title?.toLowerCase().includes(searchText?.toLowerCase() ?? "");
+      });
+      setFilteredPages({ pages: filtered });
+    }
+  }, [searchText]);
+
+  return (
+    <List
+      searchBarPlaceholder="Search pages..."
+      onSearchTextChange={setSearchText}
+      isLoading={response.isLoading}
+      throttle
+    >
+      {filteredPages?.pages?.map((page) => <PageListItem key={page.id} page={page} siteSlug={props.siteSlug} />)}
+    </List>
+  );
+}
+
+function ShowCollections(props: { staging: string; siteId: string }) {
+  const [searchText, setSearchText] = useState<string>();
+  const [filteredCollections, setFilteredCollections] = useState<Webflow.CollectionList>();
+  const [collections, setColletions] = useState<Webflow.CollectionList>();
+  const response = getCMSCollections(props.siteId);
+
+  if (response.error) {
+    showToast(Toast.Style.Failure, "Failed to load site collections", response.error);
+  }
+
+  useEffect(() => {
+    if (response.result) {
+      setColletions(response.result);
+      setFilteredCollections(response.result);
+    }
+  }, [response.result]);
+
+  useEffect(() => {
+    if (collections) {
+      const filtered = collections?.collections?.filter((collection) => {
+        return collection.displayName?.toLowerCase().includes(searchText?.toLowerCase() ?? "");
+      });
+      setFilteredCollections({ collections: filtered });
+    }
+  }, [searchText]);
+
+  return (
+    <List
+      searchBarPlaceholder="Search collections..."
+      onSearchTextChange={setSearchText}
+      isLoading={response.isLoading}
+      throttle
+    >
+      {filteredCollections?.collections?.map((collection) => (
+        <CollectionListItem key={collection.id} staging={props.staging} collection={collection} />
+      ))}
+    </List>
   );
 }

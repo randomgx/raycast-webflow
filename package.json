@@ -18,59 +18,6 @@
       "description": "Show all Webflow sites on your account",
       "subtitle": "Webflow",
       "mode": "view"
-    },
-    {
-      "name": "showSitePages",
-      "title": "Show Pages",
-      "description": "Show all the pages on a site",
-      "subtitle": "Webflow",
-      "mode": "view",
-      "arguments": [
-        {
-          "name": "siteId",
-          "description": "The site ID",
-          "type": "text",
-          "placeholder": "Site ID",
-          "required": true
-        },
-        {
-          "name": "siteSlug",
-          "description": "The site slug",
-          "type": "text",
-          "placeholder": "Site Slug",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "showCollections",
-      "title": "Show Collections",
-      "description": "Show all collections on a Webflow site",
-      "mode": "view",
-      "arguments": [
-        {
-          "name": "siteId",
-          "description": "The site ID",
-          "type": "text",
-          "placeholder": "Site ID",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "showCollectionItems",
-      "title": "Show Collection Items",
-      "description": "Show all collection items from a Collection on a Webflow site",
-      "mode": "view",
-      "arguments": [
-        {
-          "name": "collectionId",
-          "description": "The collection ID",
-          "type": "text",
-          "placeholder": "Collection ID",
-          "required": true
-        }
-      ]
     }
   ],
   "dependencies": {

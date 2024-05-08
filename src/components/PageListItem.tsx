@@ -1,6 +1,5 @@
 import { Action, ActionPanel, Icon, LaunchType, List, launchCommand, open } from "@raycast/api";
 import { Webflow } from "webflow-api";
-import { publishSite } from "../webflow/client";
 
 export default function PageListItem(props: { siteSlug: string; page: Webflow.Page }) {
   const { page, siteSlug } = props;
