@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Icon, LaunchType, List, Toast, launchCommand, open, showToast } from "@raycast/api";
+import { Action, ActionPanel, Icon, List, Toast, showToast } from "@raycast/api";
 import { Webflow } from "webflow-api";
 import { getCMSItems } from "../webflow/client";
 import { useEffect, useState } from "react";

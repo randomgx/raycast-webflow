@@ -1,9 +1,10 @@
 import { Action, ActionPanel, Icon, List, Toast, confirmAlert, open, showToast } from "@raycast/api";
 import { Webflow } from "webflow-api";
-import { getCMSCollections, getCMSItems, getPages, publishSite } from "../webflow/client";
+import { getCMSCollections, getPages, publishSite } from "../webflow/client";
 import { useEffect, useState } from "react";
 import PageListItem from "./PageListItem";
 import CollectionListItem from "./CollectionListItem";
+import { logout } from "../webflow/oauth";
 
 export default function SiteListItem(props: { site: Webflow.Site }) {
   const { site } = props;
@@ -53,6 +54,13 @@ export default function SiteListItem(props: { site: Webflow.Site }) {
                 publishSite(site.id);
                 showToast(Toast.Style.Success, "Site published successfully");
               }
+            }}
+          />
+          <Action
+            title="Logout"
+            icon={Icon.Logout}
+            onAction={() => {
+              logout();
             }}
           />
         </ActionPanel>

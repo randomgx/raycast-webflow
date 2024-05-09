@@ -1,3 +1,3 @@
-# Webflow Projects Changelog
+# Webflow Extended Changelog
 
-## [Initial Version] - 2024-03-20
+## [Added Webflow Exnteded] - 2024-03-20

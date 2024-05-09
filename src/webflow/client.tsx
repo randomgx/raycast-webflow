@@ -51,7 +51,7 @@ export function getSites(): Response<Webflow.Sites> {
         if (!cancel) {
           setResponse((oldState) => ({ ...oldState, result: response }));
         }
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (!cancel) {
           setResponse((oldState) => ({ ...oldState, error: (e as unknown as WebflowError).message }));
         }
@@ -103,7 +103,7 @@ export function getPages(siteId: string): Response<Webflow.PageList> {
         if (!cancel) {
           setResponse((oldState) => ({ ...oldState, result: response }));
         }
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (!cancel) {
           setResponse((oldState) => ({ ...oldState, error: (e as unknown as WebflowError).message }));
         }
@@ -155,7 +155,7 @@ export function getCMSCollections(siteId: string): Response<Webflow.CollectionLi
         if (!cancel) {
           setResponse((oldState) => ({ ...oldState, result: response }));
         }
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (!cancel) {
           setResponse((oldState) => ({ ...oldState, error: (e as unknown as WebflowError).message }));
         }
@@ -207,7 +207,7 @@ export function getCMSItems(collectionId: string): Response<Webflow.CollectionIt
         if (!cancel) {
           setResponse((oldState) => ({ ...oldState, result: response }));
         }
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (!cancel) {
           setResponse((oldState) => ({ ...oldState, error: (e as unknown as WebflowError).message }));
         }
@@ -230,7 +230,7 @@ export function getCMSItems(collectionId: string): Response<Webflow.CollectionIt
 
 export async function publishCMSItem(collectionId: string, itemId: string): Promise<boolean | string> {
   try {
-    const response = await webflowApi?.collections.items
+    await webflowApi?.collections.items
       .publishItem(collectionId, {
         itemIds: [itemId],
       })
@@ -240,7 +240,7 @@ export async function publishCMSItem(collectionId: string, itemId: string): Prom
         return (error as unknown as WebflowError).message;
       });
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error publishing site:", error);
     return (error as unknown as WebflowError).message;
   }
@@ -248,7 +248,7 @@ export async function publishCMSItem(collectionId: string, itemId: string): Prom
 
 export async function draftCMSItem(collectionId: string, itemId: string): Promise<boolean | string> {
   try {
-    const response = await webflowApi?.collections.items
+    await webflowApi?.collections.items
       .updateItem(
         collectionId,
         itemId,
@@ -266,7 +266,7 @@ export async function draftCMSItem(collectionId: string, itemId: string): Promis
         return (error as unknown as WebflowError).message;
       });
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error publishing site:", error);
     return (error as unknown as WebflowError).message;
   }
@@ -278,7 +278,7 @@ export async function publishSite(siteId: string): Promise<void | string> {
       publishToWebflowSubdomain: true,
     });
     return response;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error publishing site:", error);
     return (error as unknown as WebflowError).message;
   }

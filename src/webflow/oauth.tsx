@@ -59,6 +59,6 @@ async function fetchTokens(authRequest: OAuth.AuthorizationRequest, authCode: st
   return (await response.json()) as OAuth.TokenResponse;
 }
 
-async function logout() {
+export async function logout() {
   await oauthClient.removeTokens();
 }

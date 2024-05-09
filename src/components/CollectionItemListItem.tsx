@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Icon, LaunchType, List, launchCommand, open } from "@raycast/api";
+import { Action, ActionPanel, Icon, List, open } from "@raycast/api";
 import { Webflow } from "webflow-api";
 import { draftCMSItem, publishCMSItem } from "../webflow/client";
 

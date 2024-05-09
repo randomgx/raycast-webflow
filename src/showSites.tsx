@@ -1,4 +1,4 @@
-import { Grid, List, Toast, showToast } from "@raycast/api";
+import { List, Toast, showToast } from "@raycast/api";
 import { WebflowProvider } from "./utils/context";
 import { useEffect, useState } from "react";
 import { getSites } from "./webflow/client";
